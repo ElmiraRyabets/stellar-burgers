@@ -22,8 +22,6 @@ export const OrderInfo: FC = () => {
     (item: TOrder) => item.number == +orderId
   )[0];
 
-  console.log(order);
-
   const orderData = {
     createdAt: order.createdAt,
     ingredients: order.ingredients,
