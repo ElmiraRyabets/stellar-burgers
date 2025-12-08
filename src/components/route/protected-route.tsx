@@ -1,0 +1,34 @@
+import { useSelector } from '../../services/store';
+import { Navigate, useLocation } from 'react-router';
+import { Preloader } from '../ui/preloader';
+import { getStatus, isAuthenticated } from '../../services/UserSlice';
+
+type ProtectedRouteProps = {
+  onlyUnAuth?: boolean;
+  children: React.ReactElement;
+};
+
+export const ProtectedRoute = ({
+  onlyUnAuth,
+  children
+}: ProtectedRouteProps) => {
+  const status = useSelector(getStatus);
+  const isAuth = useSelector(isAuthenticated);
+  const location = useLocation();
+
+  if (status == 'loading') {
+    return <Preloader />;
+  }
+
+  if (!onlyUnAuth && !isAuth) {
+    return <Navigate replace to='/login' state={{ from: location }} />;
+  }
+
+  if (onlyUnAuth && isAuth) {
+    const from = location.state?.from || { pathname: '/' };
+
+    return <Navigate replace to={from} />;
+  }
+
+  return children;
+};
