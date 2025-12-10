@@ -1,5 +1,6 @@
 import {
   forgotPasswordApi,
+  getOrderByNumberApi,
   getOrdersApi,
   getUserApi,
   loginUserApi,
@@ -8,6 +9,7 @@ import {
   registerUserApi,
   resetPasswordApi,
   TLoginData,
+  TOrderResponse,
   TRegisterData,
   updateUserApi
 } from '@api';
@@ -16,14 +18,13 @@ import { TOrder } from '@utils-types';
 
 export const getUserOrders = createAsyncThunk(
   'orders/getUserOrders',
-  async () => getOrdersApi()
+  getOrdersApi
 );
 
 export const newUserOrder = createAsyncThunk(
   'user/newUserOrder',
   async (data: string[]) => orderBurgerApi(data)
 );
-
 export const registerUser = createAsyncThunk(
   'user/registerUser',
   async (data: TRegisterData) => registerUserApi(data)
@@ -45,17 +46,19 @@ export const resetPassword = createAsyncThunk(
   async (data: { password: string; token: string }) => resetPasswordApi(data)
 );
 
-export const getUser = createAsyncThunk('user/getUserApi', async () =>
-  getUserApi()
-);
+export const getUser = createAsyncThunk('user/getUserApi', getUserApi);
 
 export const updateUser = createAsyncThunk(
   'user/updateUser',
   async (data: Partial<TRegisterData>) => updateUserApi(data)
 );
 
-export const logoutUser = createAsyncThunk('user/logout', async () =>
-  logoutApi()
+export const logoutUser = createAsyncThunk('user/logout', logoutApi);
+
+export const getOrderByNumber = createAsyncThunk(
+  'feeds/getOrderById',
+  async (currentNumber: number) =>
+    getOrderByNumberApi(currentNumber).then((data) => data)
 );
 
 export type UserState = {
@@ -69,6 +72,7 @@ export type UserState = {
   orders: TOrder[];
   lastOrder: TOrder | null;
   orderRequestData: boolean;
+  currentOrder: TOrderResponse | null;
 };
 
 const initialState: UserState = {
@@ -81,7 +85,8 @@ const initialState: UserState = {
   status: 'idle', // idle, loading, succeeded, failed
   orders: [],
   lastOrder: null,
-  orderRequestData: false
+  orderRequestData: false,
+  currentOrder: null
 };
 
 export const userSlice = createSlice({
@@ -102,7 +107,9 @@ export const userSlice = createSlice({
     getStatus: (state) => state.status,
     getUserOrderInfo: (state) => state.orders,
     getOrderRequestStatus: (state) => state.orderRequestData,
-    getLastOrder: (state) => state.lastOrder
+    getLastOrder: (state) => state.lastOrder,
+    getCurrentOrderInfo: (state) => state.currentOrder,
+    isOrderSearchSuccess: (state) => state.currentOrder?.success
   },
   extraReducers: (builder) => {
     builder
@@ -182,6 +189,16 @@ export const userSlice = createSlice({
         state.orders.push(action.payload.order);
         state.lastOrder = action.payload.order;
         state.orderRequestData = false;
+      })
+      .addCase(getOrderByNumber.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(getOrderByNumber.rejected, (state) => {
+        state.status = 'failed';
+      })
+      .addCase(getOrderByNumber.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.currentOrder = action.payload;
       });
   }
 });
@@ -192,7 +209,9 @@ export const {
   getStatus,
   getUserOrderInfo,
   getOrderRequestStatus,
-  getLastOrder
+  getLastOrder,
+  getCurrentOrderInfo,
+  isOrderSearchSuccess
 } = userSlice.selectors;
 
 export const { loginSuccess, setLastOrder } = userSlice.actions;

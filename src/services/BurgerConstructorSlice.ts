@@ -16,25 +16,19 @@ export const burgerConstructorSlice = createSlice({
   name: 'burgerConstructor',
   initialState,
   reducers: {
-    addIngredient(state, action: PayloadAction<TIngredient>) {
-      if (action.payload.type == 'bun') {
-        state.bun = action.payload;
-      } else {
-        state.ingredients.push({
-          _id: action.payload._id,
-          name: action.payload.name,
-          type: action.payload.type,
-          proteins: action.payload.proteins,
-          fat: action.payload.fat,
-          carbohydrates: action.payload.carbohydrates,
-          calories: action.payload.calories,
-          price: action.payload.price,
-          image: action.payload.image,
-          image_large: action.payload.image_large,
-          image_mobile: action.payload.image_mobile,
-          id: uuidv()
-        });
+    addIngredient: {
+      prepare: (ingredient: TIngredient) => ({
+        payload: { ...ingredient, id: uuidv() }
+      }),
+      reducer: (state, action: PayloadAction<TConstructorIngredient>) => {
+        action.payload.type == 'bun'
+          ? (state.bun = action.payload)
+          : state.ingredients.push(action.payload);
       }
+    },
+     resetConstructor: (state: BurgerConstructorState) => {
+      state.ingredients = [];
+      state.bun = undefined;
     },
     moveUpIngredient(state, action: PayloadAction<TConstructorIngredient>) {
       const { id } = action.payload;
@@ -71,7 +65,7 @@ export const burgerConstructorSlice = createSlice({
       const { id } = action.payload;
       const currentItems = [...state.ingredients];
       const indexToRemove = currentItems.findIndex((item) => item.id === id);
-      currentItems.splice(indexToRemove, 1); 
+      currentItems.splice(indexToRemove, 1);
       return {
         ...state,
         ingredients: currentItems
@@ -90,7 +84,12 @@ export const { getBurgerConstructorData, getBun } =
 
 export default burgerConstructorSlice.reducer;
 
-export const { addIngredient, moveUpIngredient, moveDownIngredient, removeIngredient } =
-  burgerConstructorSlice.actions;
+export const {
+  addIngredient,
+  moveUpIngredient,
+  moveDownIngredient,
+  removeIngredient,
+  resetConstructor
+} = burgerConstructorSlice.actions;
 
 export const burgerConstructorReducer = burgerConstructorSlice.reducer;

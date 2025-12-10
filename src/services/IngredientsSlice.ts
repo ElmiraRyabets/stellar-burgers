@@ -16,7 +16,7 @@ export type IngredientsState = {
 const initialState: IngredientsState = {
   items: [],
   status: 'idle', // idle, loading, succeeded, failed
-  error: undefined,
+  error: undefined
 };
 
 export const ingredientsSlice = createSlice({
@@ -43,8 +43,7 @@ export const ingredientsSlice = createSlice({
   }
 });
 
-export const { getIngredientsData, getState } =
-  ingredientsSlice.selectors;
+export const { getIngredientsData, getState } = ingredientsSlice.selectors;
 
 export default ingredientsSlice.reducer;
 

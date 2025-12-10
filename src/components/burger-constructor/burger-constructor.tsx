@@ -4,7 +4,8 @@ import { BurgerConstructorUI } from '@ui';
 import { useDispatch, useSelector } from '../../services/store';
 import {
   getBurgerConstructorData,
-  getBun
+  getBun,
+  resetConstructor
 } from '../../services/BurgerConstructorSlice';
 import {
   getLastOrder,
@@ -37,12 +38,14 @@ export const BurgerConstructor: FC = () => {
     if (!constructorItems.bun || orderRequest) return;
     const ingredientsId: string[] = [
       constructorItems.bun._id,
+      constructorItems.bun._id,
       ...constructorItems.ingredients.map(
         (item: TConstructorIngredient) => item._id
       )
     ];
 
     dispatch(newUserOrder(ingredientsId));
+    dispatch(resetConstructor());
   };
   const closeOrderModal = () => dispatch(setLastOrder(null));
 
