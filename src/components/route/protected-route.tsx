@@ -30,10 +30,8 @@ export const ProtectedRoute = ({
 
   if (onlyUnAuth && isAuth && status == 'succeeded') {
     const from = location.state?.from || { pathname: '/' };
-    console.log('редирект');
     return <Navigate replace to={from} state={{ from: location }} />;
   }
 
-  console.log('что попало');
   return children;
 };
