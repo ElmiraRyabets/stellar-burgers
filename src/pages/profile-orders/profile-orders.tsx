@@ -6,6 +6,5 @@ import { getUserOrderInfo } from '../../services/UserSlice';
 
 export const ProfileOrders: FC = () => {
   const orders: TOrder[] = useSelector(getUserOrderInfo);
-  
   return <ProfileOrdersUI orders={orders} />;
 };

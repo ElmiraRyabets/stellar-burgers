@@ -12,7 +12,6 @@ export const IngredientsCategory = forwardRef<
   HTMLUListElement,
   TIngredientsCategoryProps
 >(({ title, titleRef, ingredients }, ref) => {
-
   const items: TConstructorIngredient[] = useSelector(getBurgerConstructorData);
   const savedBun: TIngredient | undefined = useSelector(getBun);
 

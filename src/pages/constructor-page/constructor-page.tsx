@@ -11,7 +11,7 @@ import { getState } from '../../services/IngredientsSlice';
 export const ConstructorPage: FC = () => {
   const state: string = useSelector(getState);
   const isIngredientsLoading = state == 'loading' ? true : false;
-  
+
   return (
     <>
       {isIngredientsLoading ? (

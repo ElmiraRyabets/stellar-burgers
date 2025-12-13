@@ -13,7 +13,11 @@ export const Register: FC = () => {
   const dispatch = useDispatch();
 
   const handleSubmit = (e: SyntheticEvent) => {
-    const userData: TRegisterData = { email: email, name: userName, password: password };
+    const userData: TRegisterData = {
+      email: email,
+      name: userName,
+      password: password
+    };
     dispatch(registerUser(userData)).then(() => navigate('/login'));
   };
 

@@ -4,9 +4,12 @@ import { OrderInfoUI } from '../ui/order-info';
 import { TIngredient, TOrder } from '@utils-types';
 import { useParams } from 'react-router-dom';
 import { useSelector } from '../../services/store';
-import { getIngredientsData, getIngredients } from '../../services/IngredientsSlice';
+import {
+  getIngredientsData,
+  getIngredients
+} from '../../services/IngredientsSlice';
 import { useDispatch } from '../../services/store';
- 
+
 import {
   getCurrentOrderInfo,
   getOrderByNumber,
@@ -16,18 +19,18 @@ import {
 export const OrderInfo: FC = () => {
   const params = useParams();
   const dispatch = useDispatch();
-  const orderNumber: number = Number(params.number); 
+  const orderNumber: number = Number(params.number);
   const isSearchSuccess = useSelector(isOrderSearchSuccess);
- 
+
   const orderData = useSelector(getCurrentOrderInfo)?.orders[0];
 
   useEffect(() => {
-      /*если заказы уже загружены и номер текущего заказа не изменился, то не подгружаем заказы */
+    /*если заказы уже загружены и номер текущего заказа не изменился, то не подгружаем заказы */
     if (!isSearchSuccess || orderNumber != orderData?.number) {
-          dispatch(getOrderByNumber(orderNumber));
+      dispatch(getOrderByNumber(orderNumber));
     }
     if (!ingredients) {
-      dispatch(getIngredients())
+      dispatch(getIngredients());
     }
   }, [dispatch]);
 

@@ -43,9 +43,9 @@ export const BurgerConstructor: FC = () => {
         (item: TConstructorIngredient) => item._id
       )
     ];
-
-    dispatch(newUserOrder(ingredientsId));
-    dispatch(resetConstructor());
+    dispatch(newUserOrder(ingredientsId)).then(() => {
+      dispatch(resetConstructor());
+    });
   };
   const closeOrderModal = () => dispatch(setLastOrder(null));
 

@@ -15,7 +15,7 @@ import styles from './app.module.css';
 import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { getIngredients } from '../../services/IngredientsSlice';
 import { useDispatch } from '../../services/store';
 import { getAllOrders } from '../../services/AllOrdersSlice';
@@ -26,8 +26,11 @@ export const App = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  // const [currentStep, setCurrentStep] = useState(1);
+
   const currentLocation = useLocation();
   const backgroundLocation = currentLocation?.state?.background;
+  const fromPage = currentLocation.state?.from?.pathname || '/';
 
   useEffect(() => {
     const fetchData = async () => {
@@ -43,7 +46,7 @@ export const App = () => {
     <>
       <div className={styles.app}>
         <AppHeader />
-        <Routes location={backgroundLocation}>
+        <Routes location={backgroundLocation || currentLocation}>
           <Route path='/' element={<ConstructorPage />} />
           <Route path='/feed' element={<Feed />} />
           <Route
@@ -51,6 +54,14 @@ export const App = () => {
             element={
               <ProtectedRoute onlyUnAuth>
                 <Login />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path='/profile'
+            element={
+              <ProtectedRoute>
+                <Profile />
               </ProtectedRoute>
             }
           />
@@ -78,19 +89,44 @@ export const App = () => {
               </ProtectedRoute>
             }
           />
-          <Route
-            path='/profile'
-            element={
-              <ProtectedRoute>
-                <Profile />
-              </ProtectedRoute>
-            }
-          />
+
           <Route
             path='/profile/orders'
             element={
               <ProtectedRoute>
                 <ProfileOrders />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path='/ingredients/:id'
+            element={
+              <Modal
+                title={'Описание ингредиента'}
+                onClose={() => navigate('/')}
+              >
+                <IngredientDetails />
+              </Modal>
+            }
+          />
+          <Route
+            path='/feed/:number'
+            element={
+              <Modal title={'Детали заказа'} onClose={() => navigate('/feed')}>
+                <OrderInfo />
+              </Modal>
+            }
+          />
+          <Route
+            path='/profile/orders/:number'
+            element={
+              <ProtectedRoute>
+                <Modal
+                  title={'Детали заказа'}
+                  onClose={() => navigate('/profile/orders')}
+                >
+                  <OrderInfo />
+                </Modal>
               </ProtectedRoute>
             }
           />

@@ -9,7 +9,7 @@ const container = document.getElementById('root') as HTMLElement;
 const root = ReactDOMClient.createRoot(container!);
 
 root.render(
-    <React.StrictMode>
+  <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>
         <App />

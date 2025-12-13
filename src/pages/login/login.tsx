@@ -2,13 +2,11 @@ import { FC, SyntheticEvent, useState } from 'react';
 import { LoginUI } from '@ui-pages';
 import { useDispatch } from '../../services/store';
 import { loginSuccess, loginUser } from '../../services/UserSlice';
-import { useNavigate } from 'react-router-dom';
 import { setCookie } from '../../utils/cookie';
 
 export const Login: FC = () => {
   const dispatch = useDispatch();
   const [email, setEmail] = useState('');
-  const navigate = useNavigate();
   const [password, setPassword] = useState('');
   const [error, setError] = useState<Error | null>(null);
 
@@ -22,7 +20,6 @@ export const Login: FC = () => {
         setCookie('accessToken', data.accessToken);
       })
       .then(() => dispatch(loginSuccess()))
-      .then(() => navigate('/'))
       .catch((err) => setError(err));
   };
 
