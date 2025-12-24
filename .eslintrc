@@ -35,7 +35,6 @@
     "arrow-body-style": ["warn", "as-needed"],
     "dot-notation": "warn",
     "jsx-quotes": ["warn", "prefer-single"],
-    "valid-typeof": "warn",
     "@typescript-eslint/member-ordering": [
       "warn",
       {
@@ -57,7 +56,8 @@
           "public-instance-method"
         ]
       }
-    ]
+    ],
+    "valid-typeof": "warn"
   },
   "settings": {
     "react": {
