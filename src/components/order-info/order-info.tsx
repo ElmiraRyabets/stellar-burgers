@@ -3,12 +3,12 @@ import { Preloader } from '../ui/preloader';
 import { OrderInfoUI } from '../ui/order-info';
 import { TIngredient, TOrder } from '@utils-types';
 import { useParams } from 'react-router-dom';
-import { useSelector } from '../../services/store';
+import { useSelector } from '../../services/Store';
 import {
   getIngredientsData,
   getIngredients
 } from '../../services/IngredientsSlice';
-import { useDispatch } from '../../services/store';
+import { useDispatch } from '../../services/Store';
 
 import {
   getCurrentOrderInfo,

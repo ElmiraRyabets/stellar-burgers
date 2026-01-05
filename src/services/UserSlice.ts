@@ -12,7 +12,7 @@ import {
   TOrderResponse,
   TRegisterData,
   updateUserApi
-} from '@api';
+} from '../utils/burger-api';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { TOrder } from '@utils-types';
 
@@ -75,7 +75,7 @@ export type UserState = {
   currentOrder: TOrderResponse | null;
 };
 
-const initialState: UserState = {
+export const initialState: UserState = {
   data: {
     name: '',
     email: ''

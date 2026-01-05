@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { useLocation } from 'react-router-dom';
 import { ProfileMenuUI } from '@ui';
 import { deleteCookie } from '../../utils/cookie';
-import { useDispatch } from '../../services/store';
+import { useDispatch } from '../../services/Store';
 import { logoutUser } from '../../services/UserSlice';
 
 export const ProfileMenu: FC = () => {

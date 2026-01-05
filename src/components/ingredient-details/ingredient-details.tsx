@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { Preloader } from '../ui/preloader';
 import { IngredientDetailsUI } from '../ui/ingredient-details';
-import { useSelector } from '../../services/store';
+import { useSelector } from '../../services/Store';
 import { TIngredient } from '@utils-types';
 import { getIngredientsData } from '../../services/IngredientsSlice';
 import { useParams } from 'react-router-dom';

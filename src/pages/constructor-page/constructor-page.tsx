@@ -1,4 +1,4 @@
-import { useSelector } from '../../services/store';
+import { useSelector } from '../../services/Store';
 
 import styles from './constructor-page.module.css';
 
