@@ -3,4 +3,3 @@ node_modules
 .idea
 dist
 storybook-static
-react-canonical@0.1.0
