@@ -4,7 +4,8 @@ import {
   initialState,
   moveDownIngredient,
   moveUpIngredient,
-  removeIngredient
+  removeIngredient,
+  resetConstructor
 } from '../BurgerConstructorSlice';
 import {
   mockBun,
@@ -60,35 +61,46 @@ describe('тесты burgerConstructorSlice', () => {
   describe('перемещение продукта', () => {
     const initialState = {
       bun: null,
-      ingredients: [
-        mockIngredient1,
-        mockIngredient2
-      ]
+      ingredients: [mockIngredient1, mockIngredient2]
     };
     test('перемещение вверх', () => {
-      const expectedResult = [
-        mockIngredient2,
-        mockIngredient1
-      ];
+      const expectedResult = [mockIngredient2, mockIngredient1];
       const actualResult = burgerConstructorReducer(
         initialState,
         moveUpIngredient(mockIngredient2)
       );
       const { ingredients } = actualResult;
-  
+
       expect(ingredients).toEqual(expectedResult);
     });
     test('перемещение вниз', () => {
-        const expectedResult = [
-        mockIngredient2,
-        mockIngredient1
-      ];
+      const expectedResult = [mockIngredient2, mockIngredient1];
       const actualResult = burgerConstructorReducer(
         initialState,
         moveDownIngredient(mockIngredient1)
       );
       const { ingredients } = actualResult;
       expect(ingredients).toEqual(expectedResult);
+    });
+  });
+
+  describe('конструктор бургера', () => {
+    test('очистка конструктора бургера', () => {
+      const onlyBunBurger = burgerConstructorReducer(
+        initialState,
+        addIngredient(mockBun)
+      );
+      const fullBurger = burgerConstructorReducer(
+        onlyBunBurger,
+        addIngredient(mockIngredient1)
+      );
+      const emptyBurger = burgerConstructorReducer(
+        fullBurger,
+        resetConstructor()
+      );
+      const { ingredients, bun } = emptyBurger;
+      expect(ingredients).toEqual([]);
+      expect(bun).toEqual(undefined);
     });
   });
 });

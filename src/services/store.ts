@@ -10,14 +10,14 @@ import { burgerConstructorReducer } from './BurgerConstructorSlice';
 import { ordersReducer } from './AllOrdersSlice';
 import { userReducer } from './UserSlice';
 
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
   ingredients: ingredientsReducer,
   burgerConstructor: burgerConstructorReducer,
   orders: ordersReducer,
   user: userReducer
 });
 
-const store = configureStore({
+export const store = configureStore({
   reducer: rootReducer,
   devTools: process.env.NODE_ENV !== 'production'
 });

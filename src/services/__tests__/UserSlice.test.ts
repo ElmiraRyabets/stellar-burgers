@@ -9,7 +9,8 @@ import {
   setLastOrder,
   updateUser,
   logoutUser,
-  userReducer
+  userReducer,
+  getOrderByNumber
 } from '../userSlice';
 import { mockUser, mockOrders, mockNewOrder } from '../mocks/MockUserSliceData';
 
@@ -213,5 +214,32 @@ describe('тесты UserSlice', () => {
   test('обновление последнего заказа', () => {
     const state = userReducer(initialState, setLastOrder(mockOrders.orders[0]));
     expect(state.lastOrder).toBe(mockOrders.orders[0]);
+  });
+
+  describe('получение заказа по номеру', () => {
+    test('запрос fulfilled', () => {
+      const state = userReducer(
+        initialState,
+        getOrderByNumber.fulfilled(mockOrders, 'fulfilled', 98343)
+      );
+      expect(state.status).toBe('succeeded');
+      expect(state.currentOrder).toEqual(mockOrders);
+    });
+
+    test('запрос pending', () => {
+      const state = userReducer(
+        initialState,
+        getOrderByNumber.pending('pending', 98343)
+      );
+      expect(state.status).toBe('loading');
+    });
+
+    test('запрос rejected', () => {
+      const state = userReducer(
+        initialState,
+        getOrderByNumber.rejected(new Error('error'), 'rejected', 98343)
+      );
+      expect(state.status).toBe('failed');
+    });
   });
 });
