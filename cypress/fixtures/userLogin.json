@@ -1,0 +1,9 @@
+{
+  "success": true,
+  "accessToken": "accessToken",
+  "refreshToken": "refreshToken",
+  "user": {
+    "email": "erm@yandex.ru",
+    "name": "Elmira"
+  }
+}

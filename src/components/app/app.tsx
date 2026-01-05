@@ -17,7 +17,7 @@ import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 
 import { useEffect, useState } from 'react';
 import { getIngredients } from '../../services/IngredientsSlice';
-import { useDispatch } from '../../services/store';
+import { useDispatch } from '../../services/Store';
 import { getAllOrders } from '../../services/AllOrdersSlice';
 import { getUser, getUserOrders } from '../../services/UserSlice';
 import { ProtectedRoute } from '../route/protected-route';

@@ -1,6 +1,6 @@
 import { FC, SyntheticEvent, useState } from 'react';
 import { LoginUI } from '@ui-pages';
-import { useDispatch } from '../../services/store';
+import { useDispatch } from '../../services/Store';
 import { loginSuccess, loginUser } from '../../services/UserSlice';
 import { setCookie } from '../../utils/cookie';
 
